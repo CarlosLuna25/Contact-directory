@@ -1,25 +1,24 @@
 <template>
-  
-    <b-navbar class="is-dark is-isbold is-gradient">
-        
-        <template slot="brand">
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
-           <h1 style="font-size:20px">  <span class="has-text-success">Contact</span>
-          <span class="has-text-white"> Directory</span></h1>
-        </b-navbar-item>
-      </template>
-       
-    
-      <template slot="start">
+  <b-navbar class="is-dark is-bold" active="false">
+    <template slot="brand">
+      <b-navbar-item class="ml-5" tag="router-link" :to="{ path: '/' }">
+        <h1 style="font-size:40px">
+          <span class="has-text-success">Contact</span>
+          <span class="has-text-white"> Directory</span>
+        </h1>
+      </b-navbar-item>
+    </template>
+    <template slot="end">
+      
         <b-navbar-item tag="router-link" :to="{ path: '/about' }">
-         <b-icon
-                icon="view-dashboard"
-                size="is-small">
-            </b-icon> About
+          About
         </b-navbar-item>
-      </template>
-    </b-navbar>
-
+        <b-navbar-item tag="router-link" :to="{ path: '/add' } " class="mr-6">
+          Add contact
+        </b-navbar-item>
+     
+    </template>
+  </b-navbar>
 </template>
 
 <script>
