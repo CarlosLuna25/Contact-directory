@@ -5,15 +5,25 @@
     <div class="container mt-5 ml-5 ">
       <div class="columns is-centered">
 
-                <div class="colum is-6 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos</span></h1></div>
-                  <div class="colum is-6 mt-1"><button class="button is-mediun is-success">Añadir contacto</button></div>
+                <div class="column is-2 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos</span></h1></div>
+                  <div class="column is-2 mt-1"><button class="button is-mediun is-success">Añadir contacto</button></div>
+      </div>
+      <div class="columns is-centered">
+                    <div class="column is-3"> 
+                      <div class="card p-2">
+                       <span class="mr-3">Buscar contacto</span>
+                       <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: pedro"/>    </div>
+
+                      </div>
 
       </div>
       <div
         class="columns is-mobile is-desktop is-tablet is-multiline is-centered"
 
       >
-        <div class="column is-12-mobile is-6-desktop is-4-tablet" v-for="contacto in contactos" :key="contacto.id">
+                       
+
+        <div class="column is-12-mobile is-6-desktop is-4-tablet" v-for="contacto in items" :key="contacto.id">
           <div class="card  card-color-dark mt-2 "  >
             <div class="card-content is-centered">
               <div class="media">
@@ -51,6 +61,7 @@ export default {
   name: "home",
   data() {
     return {
+      buscar:'',
       contactos: [],
     
     };
@@ -77,7 +88,14 @@ export default {
         });
     },
   },
-};
+  computed: {
+    items() {
+      return this.contactos.filter(item => {
+        return item.name.toLowerCase().includes(this.buscar.toLowerCase()) || item.email.toLowerCase().includes(this.buscar.toLowerCase());
+      });
+    },
+    },
+}
 </script>
 <style scoped>
 .color {

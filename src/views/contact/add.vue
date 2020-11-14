@@ -1,66 +1,139 @@
 <template>
-    <div>
-      
-        <div class="card">
-            <label for="nombre" > Nombre de contacto </label>
-            <input type="text" v-model="name" name="nombre" id="name">
-            <label for="nombre" > email de contacto </label>
-            <input type="text" v-model="email" name="nombre" id="name">
-            <br>
-             <label for="nombre" > Telefono</label>
-            <input type="text" v-model="phone" name="nombre" id="name">
-             <label for="nombre" > Direccion </label>
-            <input type="text" v-model="direction" name="direction" id="name">
-            <br>
-
-            <button v-if="isFull" class="button is-rounded is-success " @click="Agregar()">Agregar</button>
+  <div>
+    <div class="container mt-4 p-3">
+      <div class="card p-5">
+        <div class="columns is-centered">
+          <!-- input name -->
+          <div class="column is-4">
+            <div class="field">
+              <label class="label">Nombre</label>
+              <div class="control has-icons-left ">
+                <input
+                  class="input is-success"
+                  type="text"
+                  placeholder="nombre"
+                  v-model="name"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- input email -->
+          <div class="column is-4">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left ">
+                <input
+                  class="input is-success"
+                  type="email"
+                  placeholder="email"
+                  v-model="email"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- fin columns -->
+        <div class="columns is-centered">
+          <!-- input name -->
+          <div class="column is-4">
+            <div class="field">
+              <label class="label">numero de telefono</label>
+              <div class="control has-icons-left ">
+                <input
+                  class="input is-success"
+                  type="text"
+                  placeholder="Text input"
+                  v-model="phone"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- input email -->
+          <div class="column is-4">
+            <div class="field">
+              <label class="label">Direccion</label>
+              <div class="control">
+                <textarea
+                  v-model="direction"
+                  class="textarea"
+                  placeholder="Direccion del contacto"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- fin columns -->
+        <div class="columns is-centered">
+          <div class="column is-3">
+            <button
+              v-if="isFull"
+              class="button is-rounded is-success ml-4 "
+              @click="Agregar()"
+            >
+              Agregar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-    
-    data(){
-        return {
-            informacion:true  ,
-            name:"",
-            email:"",
-            phone:"",
-            direction:"",
-        }
-    }, 
-    computed:{
-           isFull(){
-            if(this.name.length>=3){
-                return true
-            }else{
-                return false
-            }
-        },
+  data() {
+    return {
+      informacion: true,
+      name: "",
+      email: "",
+      phone: "",
+      direction: "",
+    };
+  },
+  computed: {
+    isFull() {
+      if (this.name.length >= 3 && this.email.length >= 6 && this.phone.length >= 11 && this.direction.length >= 6) {
+        return true;
+      } else {
+        return false;
+      }
     },
-    methods:{
-     
-       async Agregar(){
-           await axios.post(
-               process.env.VUE_APP_server + "add",{
-                   name:this.name,
-                   email:this.email,
-                   phone:this.phone,
-                   direction:this.direction
-               },
-               {
-          headers: {
-            Authorization: process.env.VUE_APP_authorization,
-          }}
-           ).then((response) => {
+  },
+  methods: {
+    async Agregar() {
+      await axios
+        .post(
+          process.env.VUE_APP_server + "add",
+          {
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            direction: this.direction,
+          },
+          {
+            headers: {
+              Authorization: process.env.VUE_APP_authorization,
+            },
+          }
+        )
+        .then((response) => {
           const data = response;
-          console.log(data)
-          }).catch((e) => {
-          console.log(e);
+          console.log(data);
         })
-        }
-    }
-}
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+};
 </script>

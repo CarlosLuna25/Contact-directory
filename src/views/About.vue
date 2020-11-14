@@ -1,22 +1,24 @@
 <template>
   <div class="about">
-    <div class="hero is-danger is-bold is-gradient">
-       <b-image
-    
-            src="https://picsum.photos/100/100"
-            alt="A random image"
-           
-            srcset="https://picsum.photos/id/1062/400/225 200w, https://picsum.photos/id/1062/800/450  200w, https://picsum.photos/id/1062/1600/900 300w"
-
-        >
-      
-
-        </b-image>
+    <section class="hero is-medium bg-img">
+       
           <div class="hero-body">
           <div class="columns is-centered">
-              <h1 class="title has-text-black">About Contact directory app</h1>
+              <h1 class="title has-text-white">About Contact directory app</h1>
           </div>
         </div>
-    </div>
+    </section>
   </div>
 </template>
+<style scoped>
+ .bg-img { 
+        background-image: url('../assets/images/logo.png') ;
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: rgba(153, 153, 153, 0.26);
+        
+
+ }
+</style>
