@@ -110,6 +110,20 @@ export default {
     },
   },
   methods: {
+     success() {
+                this.$buefy.toast.open({
+                    message: 'Contacto añadido correctamente!',
+                    type: 'is-success'
+                })
+            },
+            danger() {
+                this.$buefy.toast.open({
+                    duration: 5000,
+                    message: `algo ha ido mal <b>Contacto Existente verifique correo y numero de telefono</b>`,
+                  
+                    type: 'is-danger'
+                })
+            },
     async Agregar() {
       await axios
         .post(
@@ -128,10 +142,17 @@ export default {
         )
         .then((response) => {
           const data = response;
+          if (data.data.success==true) {
+            this.success();
+            setTimeout(4000);
+            window.location.href = '/'
+          }
           console.log(data);
         })
         .catch((e) => {
+          this.danger();
           console.log(e);
+          console.log(e.data)
         });
     },
   },

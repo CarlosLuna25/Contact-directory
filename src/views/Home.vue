@@ -6,7 +6,7 @@
       <div class="columns is-centered">
 
                 <div class="column is-2 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos</span></h1></div>
-                  <div class="column is-2 mt-1"><button class="button is-mediun is-success">Añadir contacto</button></div>
+                  <div class="column is-2 mt-1"><button @click="addModal=true" class="button is-mediun is-success">Añadir contacto</button></div>
       </div>
       <div class="columns is-centered">
                     <div class="column is-3"> 
@@ -22,8 +22,9 @@
 
       >
                        
-
+         <b-loading :is-full-page="false"  v-model="isLoading" ></b-loading>
         <div class="column is-12-mobile is-6-desktop is-4-tablet" v-for="contacto in items" :key="contacto.id">
+           
           <div class="card  card-color-dark mt-2 "  >
             <div class="card-content is-centered">
               <div class="media">
@@ -49,6 +50,11 @@
         </div>
       </div>
     </div>
+<!-- modales de editar y crear nuevo Contacto -->
+<b-modal v-model="addModal">
+          <add/>
+</b-modal>
+
   </div>
 </template>
 
@@ -56,6 +62,7 @@
 // @ is an alias to /src
 
 import axios from "axios";
+import add from "@/views/contact/add";
 
 export default {
   name: "home",
@@ -63,15 +70,28 @@ export default {
     return {
       buscar:'',
       contactos: [],
+      isLoading:false,
+      addModal:false,
     
     };
+  },
+  components:{
+    add,
   },
 
   mounted() {
     this.GetContacts();
   },
   methods: {
+      openLoading() {
+                this.isLoading = true
+               
+            },
+      closeLoading(){
+        this.isLoading=false
+      },
     async GetContacts() {
+      this.openLoading();
       await axios
         .get(process.env.VUE_APP_server + "directory", {
           headers: {
@@ -82,9 +102,11 @@ export default {
           const data = response.data;
           this.contactos = data.data;
           console.log(this.contactos);
+          this.closeLoading()
         })
         .catch((e) => {
           console.log(e);
+           this.closeLoading()
         });
     },
   },
