@@ -1,5 +1,5 @@
 <template>
-  <b-navbar class="is-dark is-bold" active="false">
+  <b-navbar class="is-dark is-bold" :active="false">
     <template slot="brand">
       <b-navbar-item class="ml-5" tag="router-link" :to="{ path: '/' }">
         <h1 style="font-size:40px">
@@ -23,6 +23,6 @@
 
 <script>
 export default {
-  name: "nav",
+
 };
 </script>

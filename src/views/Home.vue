@@ -5,15 +5,21 @@
     <div class="container mt-5 ml-5 ">
       <div class="columns is-centered">
 
-                <div class="column is-2 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos</span></h1></div>
+                <div class="column is-3 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos ({{contactos.length}})</span></h1></div>
                   <div class="column is-2 mt-1"><button @click="addModal=true" class="button is-mediun is-success">Añadir contacto</button></div>
+                
       </div>
       <div class="columns is-centered">
                     <div class="column is-3"> 
                       <div class="card p-2">
                        <span class="mr-3">Buscar contacto</span>
                        <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: pedro"/>    </div>
-
+                         <div class="field">
+                          <b-switch v-model="isLista">
+                              Ver lista
+                          </b-switch>
+                         </div>
+       
                       </div>
 
       </div>
@@ -23,30 +29,15 @@
       >
                        
          <b-loading :is-full-page="false"  v-model="isLoading" ></b-loading>
-        <div class="column is-12-mobile is-6-desktop is-4-tablet" v-for="contacto in items" :key="contacto.id">
+        <div class="column is-12-mobile is-9-desktop is-4-tablet" v-if="!isLista" >
            
-          <div class="card  card-color-dark mt-2 "  >
-            <div class="card-content is-centered">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img
-                     :src="contacto.photo_path!==null ? contacto.photo_path : require('@/assets/images/logo.png') "
-                      :alt="contacto.name"
-                    />
-                  </figure>
-                </div>
-                <div class="media-content is-centered ">
-                  <p class="title is-4" >Nombre: {{contacto.name}}</p>
-                  <p class="subtitle is-6">Telefono: {{contacto.phone}}</p>
-                  <p class="subtitle is-6">Email: {{contacto.email}}</p>
-                  
-                  <p class="subtitle is-6">Direccion: {{contacto.direction}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr>
+          <Contacts :contactos="items"/>
+          
+        </div>
+        <div class="column is-12-mobile is-9-desktop is-4-tablet" v-else>
+           
+          <List :contacts="items"/>
+          
         </div>
       </div>
     </div>
@@ -64,6 +55,9 @@
 import axios from "axios";
 import add from "@/views/contact/add";
 
+import Contacts from '../components/home/Carousel.vue';
+import List from "@/components/home/List";
+
 export default {
   name: "home",
   data() {
@@ -72,11 +66,13 @@ export default {
       contactos: [],
       isLoading:false,
       addModal:false,
+      isLista:false,
     
     };
   },
   components:{
-    add,
+    add, 
+    Contacts, List
   },
 
   mounted() {
