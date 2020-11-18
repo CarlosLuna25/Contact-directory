@@ -5,15 +5,17 @@
   
     
     <router-view />
- 
+    <foot />
   </div>
 </template>
 <script>
 import navbar from "@/components/navbar/nav";
+import foot from "@/components/footer/footer";
+
 export default {
   name:'app',
   components:{
-    navbar
+    navbar, foot
     
   }
 }

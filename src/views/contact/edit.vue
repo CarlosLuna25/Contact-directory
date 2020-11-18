@@ -1,6 +1,7 @@
+
 <template>
-  <div>
-    <div class="container mt-4 p-3">
+    <div>
+        <div class="container mt-4 p-3">
       <div class="card p-5">
         <div class="columns is-centered">
           <!-- input name -->
@@ -12,7 +13,7 @@
                   class="input is-success"
                   type="text"
                   placeholder="nombre"
-                  v-model="name"
+                  v-model="contact.name"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
@@ -29,7 +30,8 @@
                   class="input is-success"
                   type="email"
                   placeholder="email"
-                  v-model="email"
+                  v-model="contact.email"
+
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
@@ -49,7 +51,7 @@
                   class="input is-success"
                   type="text"
                   placeholder="Text input"
-                  v-model="phone"
+                  v-model="contact.phone"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
@@ -63,7 +65,7 @@
               <label class="label">Direccion</label>
               <div class="control">
                 <textarea
-                  v-model="direction"
+                  v-model="contact.direction"
                   class="textarea"
                   placeholder="Direccion del contacto"
                 ></textarea>
@@ -77,70 +79,76 @@
             <button
               v-if="isFull"
               class="button is-rounded is-success ml-4 "
-              @click="Agregar()"
+              @click="UpdateContact()"
             >
-              Agregar
+              Actualizar
             </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  data() {
-    return {
-      informacion: true,
-      name: "",
-      email: "",
-      phone: "",
-      direction: "",
-    };
-  },
-  computed: {
-    isFull() {
-      if (this.name.length >= 3 && this.email.length >= 6 && this.phone.length >= 11 && this.direction.length >= 6) {
-        return true;
-      } else {
-        return false;
-      }
+    props:{
+        id:null
     },
-  },
-  methods: {
-     success() {
+    data(){
+        return{
+            contact:[],
+            isLoading:false,
+            
+        }
+    },
+    methods:{
+        success() {
                 this.$buefy.toast.open({
-                    message: 'Contacto añadido correctamente!',
+                    message: 'Contacto Actualizado correctamente!',
                     type: 'is-success'
                 })
             },
       danger() {
                 this.$buefy.toast.open({
                     duration: 5000,
-                    message: `algo ha ido mal <b>Contacto Existente verifique correo y numero de telefono</b>`,
+                    message: `algo ha ido mal <b>Contacto verifique correo y numero de telefono</b>`,
                   
                     type: 'is-danger'
                 })
             },
-    async Agregar() {
-      await axios
-        .post(
-          process.env.VUE_APP_server + "add",
-          {
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-            direction: this.direction,
+       async getContacto(){
+            await axios
+        .get(process.env.VUE_APP_server + "directory/"+this.id, {
+          headers: {
+            Authorization: process.env.VUE_APP_authorization,
+          },
+        }).then((response) => {
+          const data = response.data;
+          this.contact = data.data;
+          console.log(this.contact);
+         
+        }).catch((e)=>{
+            console.log(e)
+        })
+        }, //fin de funcion
+
+        async UpdateContact(){
+            await axios.put(process.env.VUE_APP_server+'update',
+                      {
+            id: this.contact.id,
+            name: this.contact.name,
+            email: this.contact.email,
+            phone: this.contact.phone,
+            direction: this.contact.direction,
           },
           {
             headers: {
               Authorization: process.env.VUE_APP_authorization,
             },
           }
-        )
-        .then((response) => {
+            ).then((response) => {
           const data = response;
           if (data.data.success==true) {
             this.success();
@@ -148,13 +156,25 @@ export default {
             window.location.href = '/'
           }
           console.log(data);
-        })
-        .catch((e) => {
+        }).catch((e) => {
           this.danger();
           console.log(e);
           console.log(e.data)
         });
+        },
+    
+    },
+      computed: {
+    isFull() {
+      if (this.contact.name.length >= 3 && this.contact.email.length >= 6 && this.contact.phone.length >= 11 && this.contact.direction.length >= 6) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
-};
+    mounted(){
+        this.getContacto()
+    }
+}
 </script>

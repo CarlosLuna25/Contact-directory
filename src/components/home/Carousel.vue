@@ -5,7 +5,8 @@
         <div class="card">
           <div class="card-image">
             <figure class="image is-5by4">
-              <a><img :src="list.photo_path"/></a>
+              <a><img :src="list.photo_path!==null ? list.photo_path : require('@/assets/images/logo.png') "
+                      :alt="list.name"/></a>
             </figure>
           </div>
           <div class="card-content">
@@ -22,8 +23,8 @@
               </p>
               <div class="field is-grouped">
                 <p class="control">
-                  <button class="button is-medium is-warning ">
-                    <b-icon size="is-small" icon="account-edit" />
+                  <button class="button is-medium is-warning " @click="edit(list.id) "  >
+                    <b-icon size="is-small" icon="account-edit"  />
                   </button>
                 </p>
                 <p class="control" style="margin-left: auto">
@@ -34,28 +35,39 @@
               </div>
             </div>
           </div>
+       
         </div>
       </template>
     </b-carousel-list>
+       <b-modal v-model="modalEdit">
+          <edit :id="editid" />
+         </b-modal>
   </div>
 </template>
 
 <script>
+import edit from '../../views/contact/edit.vue'
 export default {
-  name: "contacts",
+  
   props: {
     contactos: Array,
   },
-  methods: {
-    MostrarOrden() {
-      console.log(
-        
-      );
-    },
+  data(){
+    return{
+        editid:null,
+        modalEdit:false
+    }
   },
-  mounted(){
-      this.MostrarOrden();
-  }
+  components:{
+    edit
+  },
+  methods: {
+    edit(id){
+        this.editid=id,
+        this.modalEdit=true
+      }
+  },
+ 
 };
 </script>
 <style scoped>
