@@ -21,15 +21,15 @@
                   
                   <p class="subtitle is-6">Direccion: {{contacto.direction}}</p>
                 </div>
-                              <div class="field is-grouped">
+                <div class="field is-grouped">
                 <p class="control">
                   <button class="button is-medium is-warning " @click="edit(contacto.id)">
                     <b-icon size="is-small" icon="account-edit" />
                   </button>
                 </p>
                 <p class="control" style="margin-left: auto">
-                  <button class="button is-medium is-danger ">
-                    <b-icon size="is-small" icon="delete" />
+                  <button class="button is-medium is-danger " @click="Delete(contacto)">
+                    <b-icon size="is-small" icon="delete"  />
                   </button>
                 </p>
               </div>
@@ -43,12 +43,17 @@
     <b-modal v-model="modalEdit">
           <edit :id="editid" />
     </b-modal>
+      <b-modal v-model="modalConfirm">
+          <Delete v-on:confirm="Cerrar()" :contact="contactDelete" />
+    </b-modal>
    </div>  
 </template>
 <script>
-import edit from '../../views/contact/edit.vue'
+import edit from '../../views/contact/edit.vue';
+import Delete from "@/components/home/Delete";
+
 export default {
-  components: { edit },
+  components: { edit, Delete },
     props:{
 
         contacts:Array
@@ -57,13 +62,22 @@ export default {
     data(){
       return{
         editid:null,
-        modalEdit:false
+        modalEdit:false,
+        contactDelete:[],
+        modalConfirm:false,
       }
     },
     methods:{
       edit(id){
         this.editid=id,
         this.modalEdit=true
+      },
+      Delete(contact){
+        this.contactDelete=contact;
+        this.modalConfirm=true;
+      },
+      Cerrar(){
+        this.modalConfirm=false
       }
     }
 

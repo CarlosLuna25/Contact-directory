@@ -28,7 +28,7 @@
                   </button>
                 </p>
                 <p class="control" style="margin-left: auto">
-                  <button class="button is-medium is-danger ">
+                  <button class="button is-medium is-danger " @click="Delete(list)">
                     <b-icon size="is-small" icon="delete" />
                   </button>
                 </p>
@@ -42,11 +42,15 @@
        <b-modal v-model="modalEdit">
           <edit :id="editid" />
          </b-modal>
+         <b-modal v-model="modalConfirm">
+          <Delete v-on:confirm="Cerrar()" :contact="contactDelete" />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import edit from '../../views/contact/edit.vue'
+import Delete from "@/components/home/Delete";
 export default {
   
   props: {
@@ -55,16 +59,25 @@ export default {
   data(){
     return{
         editid:null,
-        modalEdit:false
+        modalEdit:false,
+        contactDelete:[],
+        modalConfirm:false,
     }
   },
   components:{
-    edit
+    edit,Delete
   },
   methods: {
     edit(id){
         this.editid=id,
         this.modalEdit=true
+      },
+        Delete(contact){
+        this.contactDelete=contact;
+        this.modalConfirm=true;
+      },
+      Cerrar(){
+        this.modalConfirm=false
       }
   },
  
