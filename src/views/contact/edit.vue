@@ -1,11 +1,29 @@
 
 <template>
     <div>
-        <div class="container mt-4 p-3">
-      <div class="card p-5">
+    <div class="container mt-4 p-3">
+      <div class="card p-5 ml-6">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+                <figure class="image is-96x96 pointer" @click="image()" @mouseleave="overlay=false" 
+                 >
+                  <div class="is-overlay " v-if="overlay">
+                    <span class="tag is-primary">Click para cambiar la imagen</span>
+                  </div>
+                <img
+                  @mouseover="overlay=true"
+                  
+                  
+                  :src="contact.photo_path!==null ? contact.photo_path : require('@/assets/images/logo.png') "
+                  alt="Placeholder image"
+                />
+              </figure>
+            </div>
+            <div class="media-right ml-6">
         <div class="columns is-centered">
           <!-- input name -->
-          <div class="column is-4">
+          <div class="column is-5">
             <div class="field">
               <label class="label">Nombre</label>
               <div class="control has-icons-left ">
@@ -22,7 +40,7 @@
             </div>
           </div>
           <!-- input email -->
-          <div class="column is-4">
+          <div class="column is-5">
             <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left ">
@@ -43,7 +61,7 @@
         <!-- fin columns -->
         <div class="columns is-centered">
           <!-- input name -->
-          <div class="column is-4">
+          <div class="column is-5">
             <div class="field">
               <label class="label">numero de telefono</label>
               <div class="control has-icons-left ">
@@ -60,7 +78,7 @@
             </div>
           </div>
           <!-- input email -->
-          <div class="column is-4">
+          <div class="column is-5">
             <div class="field">
               <label class="label">Direccion</label>
               <div class="control">
@@ -85,25 +103,47 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+
+        </div>
+       
       </div>
     </div>
+   <!--  modal de editar imagen -->
+   <b-modal v-model="modalImage">
+          <imagen v-on:imageUp="closeImage()"  :contact="contact.id" />
+    </b-modal>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import imagen from "@/components/contact/Image";
 export default {
     props:{
         id:null
+    },
+    components:{
+      imagen
     },
     data(){
         return{
             contact:[],
             isLoading:false,
+            modalImage:false,
+            overlay:false,
             
         }
     },
     methods:{
+      closeImage(){
+        this.getContacto();
+        this.modalImage=false;
+      },
+      image(){
+        this.modalImage=true;
+      },
         success() {
                 this.$buefy.toast.open({
                     message: 'Contacto Actualizado correctamente!',
@@ -178,3 +218,8 @@ export default {
     }
 }
 </script>
+<style  scoped>
+.pointer{
+  cursor: pointer;
+}
+</style>
