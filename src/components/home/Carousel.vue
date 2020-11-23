@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-carousel-list :data="contactos" :items-to-show="5">
-      <template slot="item" slot-scope="list" class="">
-        <div class="card">
+    <b-carousel-list :data="contactos" :items-to-show="4">
+      <template slot="item" slot-scope="list" class="carousel">
+        <div class="card  has-text-black">
           <div class="card-image">
             <figure class="image is-5by4">
               <a><img :src="list.photo_path!==null ? list.photo_path : require('@/assets/images/logo.png') "
@@ -11,16 +11,11 @@
           </div>
           <div class="card-content">
             <div class="content">
-              <p class="title is-4">{{ list.name }}</p>
-              <p class="subtitle is-small-text mt-1">
-                Telefono: {{ list.phone }}
+              <p class="title is-6 has-text-centered has-text-black">{{ list.name }}</p>
+              <p class="subtitle is-small-text mt-1 has-text-black">
+                 {{ list.email }}
               </p>
-              <p class="subtitle is-small-text mt-1">
-                Correo: {{ list.email }}
-              </p>
-              <p class="subtitle is-small-text mt-1">
-                Direccion: {{ list.direction }}
-              </p>
+              
               <div class="field is-grouped">
                 <p class="control">
                   <button class="button is-medium is-warning " @click="edit(list.id) "  >
@@ -86,5 +81,10 @@ export default {
 <style scoped>
 .is-small-text {
   font-size: 15px;
+}
+.carousel-slide {
+  min-width: 500px !important;
+  max-height: 100%!important;
+  min-height: 100% !important;
 }
 </style>
