@@ -1,23 +1,29 @@
 <template>
   <div class="about">
-    <section class="hero is-medium bg-img">
-       
-          <div class="hero-body">
-          <div class="columns is-centered">
-              <h1 class="title has-text-white">About Contact directory app</h1>
-          </div>
-        </div>
-    </section>
+    <info/>
   </div>
 </template>
+
+<script>
+import info from "@/components/about/info"
+
+export default {
+  components:{
+    info
+  
+  }
+}
+</script>
 <style scoped>
  .bg-img { 
-        background-image: url('../assets/images/logo.png') ;
+        background-image: url('../assets/images/about.jpg') ;
         background-position: center center;
         background-repeat:  no-repeat;
         background-attachment: fixed;
         background-size:  cover;
-        background-color: rgba(153, 153, 153, 0.26);
+        background-color: rgba(8, 8, 8, 0.863);
+        width: 100%;
+        height: 100%;
         
 
  }

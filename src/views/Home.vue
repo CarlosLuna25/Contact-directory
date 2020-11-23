@@ -5,14 +5,14 @@
     <div class="container mt-5 ml-5 ">
       <div class="columns is-centered">
 
-                <div class="column is-3 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos ({{contactos.length}})</span></h1></div>
+                <div class="column is-3 mr-3"><h1 class="title"> <span class="has-text-success ">Contactos ({{contactos.length}})   </span> <div v-if="local"> (Lista de Vuex)</div></h1></div>
                   <div class="column is-2 mt-1"><button @click="addModal=true" class="button is-mediun is-success">Añadir contacto</button></div>
                 
       </div>
-      <div class="columns is-centered">
+      <div class="columns is-centered"> 
                     <div class="column is-3"> 
                       <div class="card p-2">
-                       <span class="mr-3">Buscar contacto</span>
+                       <span class="mr-3">Buscar contacto </span>
                        <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: pedro"/>    </div>
                          <div class="field">
                           <b-switch v-model="isLista">
@@ -53,7 +53,7 @@
 
 <script>
 // @ is an alias to /src
-
+import { mapState } from "vuex";
 import axios from "axios";
 import add from "@/views/contact/add";
 
@@ -64,6 +64,7 @@ export default {
   name: "home",
   data() {
     return {
+      local:false,
       buscar:'',
       contactos: [],
       isLoading:false,
@@ -104,6 +105,8 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          this.contactos=this.contactosLocal;
+          this.local=true
            this.closeLoading()
         });
     },
@@ -114,6 +117,7 @@ export default {
         return item.name.toLowerCase().includes(this.buscar.toLowerCase()) || item.email.toLowerCase().includes(this.buscar.toLowerCase());
       });
     },
+    ...mapState(['contactosLocal'])
     },
 }
 </script>
