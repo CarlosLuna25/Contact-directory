@@ -14,8 +14,9 @@
               </figure>
             </div>
             <div class="media-right">
-              <p class="title is-4">{{contact.name}}</p>
-              <p class="subtitle is-6">@johnsmith</p>
+              <p class="title has-text-dark is-4">{{contact.name}}</p>
+              <p class="subtitle has-text-dark is-6">{{contact.email}}</p>
+              <p class="subtitle has-text-dark is-6">{{contact.phone}}</p>
             </div>
           </div>
           <div class="content">
@@ -90,6 +91,4 @@ export default {
   },
 };
 </script>
-
-
 

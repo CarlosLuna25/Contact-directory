@@ -1,11 +1,11 @@
 <template>
   <div>
-    <b-carousel-list :data="contactos" :items-to-show="4">
+    <b-carousel-list :data="contactos" :items-to-show="3.1">
       <template slot="item" slot-scope="list" class="carousel">
         <div class="card  has-text-black">
           <div class="card-image">
             <figure class="image is-5by4">
-              <a><img :src="list.photo_path!==null ? list.photo_path : require('@/assets/images/logo.png') "
+              <a @click="EnviarContacto(list)"><img :src="list.photo_path!==null ? list.photo_path : require('@/assets/images/logo.png') "
                       :alt="list.name"/></a>
             </figure>
           </div>
@@ -50,6 +50,7 @@ export default {
   
   props: {
     contactos: Array,
+   
   },
   data(){
     return{
@@ -63,6 +64,10 @@ export default {
     edit,Delete
   },
   methods: {
+    EnviarContacto(contact){
+      this.$emit('EnviarContacto',contact);
+    },
+    
     edit(id){
         this.editid=id,
         this.modalEdit=true
@@ -86,5 +91,8 @@ export default {
   min-width: 500px !important;
   max-height: 100%!important;
   min-height: 100% !important;
+}
+.is-small-text{
+  font-size: 70%  !important;
 }
 </style>
