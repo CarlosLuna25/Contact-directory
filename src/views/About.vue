@@ -16,7 +16,7 @@ export default {
 </script>
 <style scoped>
  .bg-img { 
-        background-image: url('../assets/images/about.jpg') ;
+        background-image: url('../assets/images/about.jpg');
         background-position: center center;
         background-repeat:  no-repeat;
         background-attachment: fixed;
